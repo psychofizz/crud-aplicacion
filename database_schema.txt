@@ -1,0 +1,8 @@
+Empleado: 
+    Id PK
+    Nombre 1 NN
+    Nombre 2 NN
+    Apeillido 1 NN
+    Apeillido 2 N
+    Funcionn NN
+    

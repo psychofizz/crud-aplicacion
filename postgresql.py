@@ -13,6 +13,7 @@ def check_postgresql_connection(server,port,username,password):
 
         if connection:
             print("Connection successful!")
+            dpg.set_value("connectionTag","Conexion establecida con Postgresql")
             # Perform further actions with the connection if needed
 
         # Close the connection

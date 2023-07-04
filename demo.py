@@ -6,6 +6,10 @@ from postgresql import check_postgresql_connection
 dpg.create_context()
 
 List = ["Postgresql","MySQL","Microsoft SQL Server"]
+
+def set_green_theme():
+    dpg.set_theme_item(dpg.mvThemeCol_WindowBg, (0, 0, 0, 255))  # Set window background color to black
+    dpg.set_theme_item(dpg.mvThemeCol_Text, (0, 255, 0, 255)) 
     
 def get_user_fields_select_db(sender, app_data):
     ip_address = dpg.get_value("fieldIpAddress")
@@ -26,7 +30,10 @@ def get_user_fields_select_db(sender, app_data):
         print("Processing with MySQL")
     elif db_select == "Microsoft SQL Server":
         print("Processing with Microsoft SQL Server")
-        check_mssql_connection(ip_address,port_db,username_db,password_db)
+        if check_mssql_connection(ip_address,port_db,username_db,password_db) == 0:
+            dpg.set_value("connectionTag","Conexion establecida con SQL Server Establecida")
+        else: 
+            dpg.set_value("connectionTag","Conexion establecida con SQL Server fallida")
     else:
         print("Unsupported database option")
     
@@ -34,8 +41,6 @@ def get_user_fields_select_db(sender, app_data):
 def radio_button_callback(sender, app_data):
     print(f"Selected option: {app_data}")
     
-    
-
 
 with dpg.window(tag="Primary Window"):
     dpg.add_text("Seleccione su base de datos")
@@ -61,6 +66,8 @@ with dpg.window(tag="Primary Window"):
     dpg.add_input_text(tag="fieldPassword")
     
     dpg.add_button(label="Hola Mundo", tag="btnChequeo", callback=get_user_fields_select_db)
+    
+    dpg.add_text("Conexion con db no establecida", tag="connectionTag")
     
 
 dpg.create_viewport(title='CRUD con base de datos', width=800, height=600)
